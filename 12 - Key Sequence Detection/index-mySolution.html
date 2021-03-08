@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+    <title>Key Detection</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        position: relative;
+      }
+
+      body {
+        transition: scale 1s ease-in;
+      }
+
+      canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      h1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%) scale(0);
+      }
+
+      h1:first-child {
+        font-size: 20px;
+        transform: translateX(-50%) translateY(-50%) scale(1);
+      }
+    </style>
+		<script
+			type="text/javascript"
+			src="https://www.cornify.com/js/cornify.js"
+    ></script>
+	</head>
+	<body>
+    <h1>Type <span style="color: tomato">Konami Code</span> and Press Enter</h1>
+    <h1>You did it!!!</h1>
+    <canvas id="my-canvas"></canvas>
+    <script src="node_modules/confetti-js/dist/index.min.js"></script>
+		<script>
+      const confettiSettings = {"target":"my-canvas","max":"80","size":"1","animate":true,"props":["circle","square","triangle","line"],"colors":[[165,104,246],[230,61,135],[0,199,228],[253,214,126]],"clock":"25","rotate":true,"width":"1440","height":"788","start_from_edge":false,"respawn":true};
+      const confetti = new ConfettiGenerator(confettiSettings);
+      const h1 = document.querySelectorAll('h1');
+			const pressed = [];
+			const secretWords = [
+				'ArrowUp',
+				'ArrowUp',
+				'ArrowDown',
+				'ArrowDown',
+				'ArrowLeft',
+				'ArrowRight',
+				'ArrowLeft',
+				'ArrowRight',
+				'b',
+				'a',
+				'Enter',
+			];
+
+			window.addEventListener('keyup', (e) => {
+				pressed.push(e.key);
+				if (pressed.length > secretWords.length) {
+					pressed.shift();
+				}
+
+				if (pressed.join('') === secretWords.join('')) {
+          h1[0].style.transform = "translateX(-50%) translateY(-50%) scale(0)";
+          h1[1].style.transform = "translateX(-50%) translateY(-50%) scale(1)";
+          confetti.render();
+					console.log('Yey!!!');
+				}
+			});
+		</script>
+	</body>
+</html>
